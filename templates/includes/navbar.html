@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Navbar</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    /* Navbar rengini lacivert yapmak için */
+    .bg-dark {
+      background-color: navy !important; /* Lacivert */
+    }
+
+    /* Dark tema için genel stil */
+    .dark-mode {
+      background-color: #2c2c2c;
+      color: white;
+    }
+
+    .dark-mode .navbar {
+      background-color: #1a1a1a;
+    }
+
+    /* Düğme için stil */
+    .btn-dark-mode {
+      color: white;
+      background-color: #343a40;
+      border-color: #343a40;
+    }
+
+    .btn-dark-mode:hover {
+      background-color: #23272b;
+      border-color: #1d2124;
+    }
+  </style>
+</head>
+<body>
+  <!-- Dark Tema Button-->
+  <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+    <a class="navbar-brand" href="/">Benim Sayfam</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="/about">Hakkımızda</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/articles">Makaleler</a>
+        </li>
+      </ul>
+      <ul class="navbar-nav ml-auto">
+        {% if session.logged_in %}
+          <li class="nav-item">
+            <a class="nav-link" href="/dashboard">{{ session.username }}</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/logout">Çıkış Yap</a>
+          </li>
+        {% else %}
+          <li class="nav-item">
+            <a class="nav-link" href="/login">Giriş Yapın</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/register">Kayıt Olun</a>
+          </li>
+        {% endif %}
+        <!-- Dark tema değiştirme düğmesi -->
+        <li class="nav-item">
+          <button id="theme-toggle" class="btn btn-dark-mode">
+            Dark Mode
+          </button>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Bootstrap JS (Opsiyonel) -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+  <!-- Tema değişim JavaScript -->
+  <script>
+    const themeToggleButton = document.getElementById('theme-toggle');
+    const body = document.body;
+
+    // Sayfa yüklendiğinde kullanıcı tercihini kontrol et
+    if (localStorage.getItem('theme') === 'dark') {
+      body.classList.add('dark-mode');
+      themeToggleButton.textContent = 'Light Mode';  // Buton metnini değiştir
+    } else {
+      body.classList.remove('dark-mode');
+      themeToggleButton.textContent = 'Dark Mode';  // Buton metnini değiştir
+    }
+
+    themeToggleButton.addEventListener('click', () => {
+      // Dark mode ve normal mode arasında geçiş
+      body.classList.toggle('dark-mode');
+      
+      // Yerel depolama ile kullanıcı tercihini kaydet
+      if (body.classList.contains('dark-mode')) {
+        themeToggleButton.textContent = 'Light Mode';
+        localStorage.setItem('theme', 'dark');  // Dark mode seçildiğinde kaydet
+      } else {
+        themeToggleButton.textContent = 'Dark Mode';
+        localStorage.setItem('theme', 'light');  // Light mode seçildiğinde kaydet
+      }
+    });
+  </script>
+</body>
+</html>

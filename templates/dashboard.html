@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<h3>Profil Bilgileriniz</h3>
+<small>Hoşgeldin, {{ user.username }}</small>
+<hr>
+
+<div class="profile-info">
+ {% if user.profile_picture and user.profile_picture != "" %}
+  <img src="{{ url_for('static', filename='uploads/' + user.profile_picture) }}" alt="Profil Fotoğrafı" class="img-thumbnail">
+{% else %}
+  <img src="{{ url_for('static', filename='default_profile.png') }}" alt="Varsayılan Profil Fotoğrafı" class="img-thumbnail">
+{% endif %}
+
+  <p><strong>Kullanıcı Adı: </strong>{{ user.username }}</p>
+  <p><strong>Ad: </strong>{{ user.name if user.name else "Bilgi Yok" }}</p>
+  <p><strong>E-posta: </strong>{{ user.email if user.email else "Bilgi Yok" }}</p>
+  <a href="/editprofile" class="btn btn-primary">Profilinizi Güncelle</a>
+  <a href="/my_articles" class="btn btn-primary">Makaleleriniz</a>
+</div>
+{% endblock body %}
